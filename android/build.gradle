@@ -1,0 +1,40 @@
+buildscript {
+    ext.kotlin_version = '1.7.10'
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.2.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.10' // Add this if using Firebase or other Google services
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1' // Example Firebase Crashlytics plugin
+        classpath 'com.google.firebase:perf-plugin:1.4.0' // Example Firebase Performance Monitoring plugin
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    // Customize build directory if needed
+    rootProject.buildDir = '../build'
+
+    // Customize build directory for subprojects
+    subprojects {
+        project.buildDir = "${rootProject.buildDir}/${project.name}"
+    }
+
+    // Ensure evaluation depends on app project
+    subprojects {
+        project.evaluationDependsOn(':app')
+    }
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
